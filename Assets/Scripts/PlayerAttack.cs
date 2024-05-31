@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -7,6 +8,15 @@ public class PlayerAttack : MonoBehaviour
     public float attackRadius = 5f;
     public float attackAngle = 45f;
     public LayerMask enemyLayer;
+    private Animator animator;
+    private Rigidbody rb;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
+    }
+
 
     void Update()
     {
@@ -40,12 +50,16 @@ public class PlayerAttack : MonoBehaviour
 
                 if (enemyScale.magnitude <= playerScale.magnitude)
                 {
+                    StartAttackAnimation();
                     Destroy(enemy);
                 }
             }
         }
     }
-
+    void StartAttackAnimation()
+    {
+        animator.SetTrigger("Attack");
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
